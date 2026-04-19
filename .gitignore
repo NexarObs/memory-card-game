@@ -1,0 +1,30 @@
+# Compiled output
+/target/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+*.log.*
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+._*
+
+# IntelliJ
+.idea/
+*.iml

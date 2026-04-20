@@ -38,4 +38,15 @@
         <property name="order" value="1" />
     </bean>
 
+    <!-- Load properties file -->
+    <context:property-placeholder location="classpath:persistence.properties"/>
+
+    <!-- DataSource PostgreSQL -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
 </beans>

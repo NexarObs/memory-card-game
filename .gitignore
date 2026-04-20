@@ -28,3 +28,9 @@ Desktop.ini
 # IntelliJ
 .idea/
 *.iml
+
+# history 
+.history/
+
+#database config
+persistence.properties

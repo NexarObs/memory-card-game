@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS memory_card_game;
+
 CREATE TABLE players (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,

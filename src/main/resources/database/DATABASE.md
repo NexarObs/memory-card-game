@@ -2,27 +2,20 @@
 
 postgreSQl as database
 
-## 1-create database named memory_card_game;
- ```
- psql -U postgres
- ```
- ```
- CREATE DATABASE  memory_card_game;
- ```
-## 2-connect to database 
+## 1-connect to database 
  ```
  \c memory_card_game
  ```
-## 3-create tables 
+## 2-create tables 
  ```
  psql -U postgres -d memory_card_game -f src/main/resources/database/db.sql
  ```
- ## 4-run mock to insert data
+ ## 3-run mock to insert data
 
   ```
   psql -U postgres -d memory_card_game -f src/main/resources/database/mock.sql
   ```
-## 5-add persistence.properties 
+## 4-add persistence.properties 
   
  add persistence.properties in src/main/resources
 

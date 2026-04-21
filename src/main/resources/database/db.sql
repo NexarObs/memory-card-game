@@ -1,7 +1,6 @@
-CREATE DATABASE IF NOT EXISTS memory_card_game;
-
-CREATE TABLE players (
+CREATE TABLE  IF NOT EXISTS players (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    score INTEGER  NOT NULL DEFAULT 0
 );

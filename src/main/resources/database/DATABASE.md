@@ -1,6 +1,11 @@
 # Database setup
 
 postgreSQl as database
+## 0-create database manuelle
+ ```
+  psql -U postgres
+  CREATE DATABASE memory_card_game;
+ ```
 
 ## 1-connect to database 
  ```

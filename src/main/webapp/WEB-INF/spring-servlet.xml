@@ -3,12 +3,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd  ">
 
     <!-- Scan for controllers and components -->
     <context:component-scan base-package="com.jee.memorycardgame" />
@@ -17,7 +20,10 @@
     <mvc:annotation-driven />
 
     <!-- Serve static resources -->
-    <mvc:default-servlet-handler />
+    <mvc:annotation-driven />
+
+    <mvc:resources mapping="/css/**" location="/resources/css/" />
+    <mvc:resources mapping="/images/**" location="/resources/images/" />
 
     <!-- Thymeleaf View Resolver -->
     <bean id="templateResolver"
@@ -41,6 +47,7 @@
     <!-- Load properties file -->
     <context:property-placeholder location="classpath:persistence.properties"/>
 
+
     <!-- DataSource PostgreSQL -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
@@ -48,5 +55,9 @@
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
     </bean>
+    <!-- lance db.sql et mock.sql -->
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:database/db.sql"/>
+    </jdbc:initialize-database>
 
 </beans>

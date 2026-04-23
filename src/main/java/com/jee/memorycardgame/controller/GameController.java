@@ -1,6 +1,7 @@
 package com.jee.memorycardgame.controller;
 
 import com.jee.memorycardgame.model.GameModel;
+import com.jee.memorycardgame.service.GameDifficultyService;
 import com.jee.memorycardgame.service.GameService;
 
 import javax.servlet.http.HttpSession;
@@ -17,34 +18,36 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private GameDifficultyService gameDifficultyService;
 
-    @GetMapping("/game{id}")
+    @GetMapping("/game/{id}")
     public String showGame(
             @PathVariable int id,
             HttpSession session,
             Model model
     ) {
 
-        Integer userId =
-                (Integer) session.getAttribute("userId");
+        Integer userId = (Integer) session.getAttribute("userId");
 
-        if (userId == null)
+        if (userId == null) {
             return "redirect:/login";
+        }
 
+        GameModel game = gameService.loadGame(id);
 
-        GameModel game =
-                gameService.loadGame(id);
-
+        if (game == null) {
+            return "redirect:/games";
+        }
 
         session.setAttribute("activeGame", game);
 
+        int gridSize = gameDifficultyService.getGridSize(game.getDifficulty());
 
         model.addAttribute("game", game);
-
-        model.addAttribute("userId", userId);
-
+        model.addAttribute("difficulty", game.getDifficulty());
+        model.addAttribute("gridSize", gridSize);
 
         return "game";
     }
-
 }

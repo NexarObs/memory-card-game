@@ -7,6 +7,7 @@
     <title>Memory Game</title>
 
     <link rel="stylesheet" th:href="@{/css/game.css}">
+    <script th:src="@{/js/game.js}"></script>
 </head>
 
 <body>
@@ -14,30 +15,32 @@
 <div class="game-container">
 
     <div class="top-bar">
-        <h2>Memory Game - Level 1 (2x2)</h2>
+
+        <h2>
+            Memory Game -
+            Level <span th:text="${difficulty}"></span>
+            (
+            <span th:text="${gridSize}"></span>
+            x
+            <span th:text="${gridSize}"></span>
+            )
+        </h2>
 
         <div class="actions">
             <button class="btn save-btn">Save Game</button>
-            <button class="btn quit-btn">Quit Game</button>
+            <a th:href="@{/games}" class="btn quit-btn">Quit Game</a>
         </div>
+
     </div>
 
-    <div class="game-board">
+    <div class="game-board"
+         th:style="'grid-template-columns: repeat(' + ${gridSize} + ', 100px)'">
 
-        <div class="card">
+        <div class="card"
+             th:each="i : ${#numbers.sequence(1, gridSize * gridSize)}">
+
             <img th:src="@{/images/010.jpg}" alt="card">
-        </div>
 
-        <div class="card">
-            <img th:src="@{/images/Resting-Knight-3.jpg}" alt="card">
-        </div>
-
-        <div class="card">
-            <img th:src="@{/images/010.jpg}" alt="card">
-        </div>
-
-        <div class="card">
-            <img th:src="@{/images/Resting-Knight-3.jpg}" alt="card">
         </div>
 
     </div>

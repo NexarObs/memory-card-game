@@ -37,7 +37,7 @@ public class MenuController {
 
         int gameId = gameService.createGame(userId, difficulty);
 
-        return "redirect:/game" + gameId;
+        return "redirect:/game/" + gameId;
     }
 
     // LOAD GAME

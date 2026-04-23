@@ -1,10 +1,13 @@
 package com.jee.memorycardgame.controller;
 
+import com.jee.memorycardgame.model.PlayerModel;
 import com.jee.memorycardgame.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class PlayerController {
@@ -12,47 +15,77 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    //login page
+    // ================= LOGIN PAGE =================
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(HttpSession session) {
+
+        if (session.getAttribute("userId") != null) {
+            return "redirect:/games";
+        }
+
         return "login";
     }
 
-    //register page
+    // ================= REGISTER PAGE =================
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(HttpSession session) {
+
+        if (session.getAttribute("userId") != null) {
+            return "redirect:/games";
+        }
+
         return "register";
     }
 
-    // login
+    // ================= LOGIN =================
     @PostMapping("/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
-                        Model model) {
+                        Model model,
+                        HttpSession session) {
 
-        String result = playerService.login(username, password);
+        PlayerModel player = playerService.login(username, password);
 
-        if (result.equals("LOGIN_SUCCESS")) {
-            return "redirect:/game";
+        if (player != null) {
+
+            
+            session.setAttribute("userId", player.getId());
+            session.setAttribute("username", player.getUsername());
+
+            return "redirect:/games";
         }
 
-        model.addAttribute("error", result);
+        model.addAttribute("error", "Invalid username or password");
         return "login";
     }
 
-    // --------- REGISTER ---------
+    // ================= REGISTER =================
     @PostMapping("/register")
     public String register(@RequestParam String username,
                            @RequestParam String password,
-                           Model model) {
+                           Model model,
+                           HttpSession session) {
 
-        String result = playerService.register(username, password);
+        PlayerModel player = playerService.register(username, password);
 
-        if (result.equals("REGISTER_SUCCESS")) {
-            return "redirect:/game";
+        if (player != null) {
+
+            session.setAttribute("userId", player.getId());
+            session.setAttribute("username", player.getUsername());
+
+            return "redirect:/games";
         }
 
-        model.addAttribute("error", result);
+        model.addAttribute("error", "Registration failed");
         return "register";
+    }
+
+    // ================= LOGOUT =================
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+
+        return "redirect:/login";
     }
 }

@@ -19,7 +19,7 @@ public class PlayerRepository {
      * sinon elle remplis playerModel
      */
     public Optional<PlayerModel> findByUsername(String username) {
-        String sql = "SELECT id, username, password, score FROM players WHERE username = ?";
+        String sql = "SELECT id, username, password FROM players WHERE username = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
  
@@ -53,13 +53,12 @@ public class PlayerRepository {
  
     // save player in database
     public void save(PlayerModel player) {
-        String sql = "INSERT INTO players (username, password, score) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO players (username, password) VALUES ( ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
  
             ps.setString(1, player.getUsername());
             ps.setString(2, player.getPassword());
-            ps.setInt(3, player.getScore());
             ps.executeUpdate();
  
             try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -78,7 +77,6 @@ public class PlayerRepository {
         p.setId(rs.getInt("id"));
         p.setUsername(rs.getString("username"));
         p.setPassword(rs.getString("password"));
-        p.setScore(rs.getInt("score"));
         return p;
     }
 }

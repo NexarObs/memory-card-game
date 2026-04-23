@@ -71,7 +71,7 @@ public class PlayerController {
         if (player != null) {
 
             session.setAttribute("userId", player.getId());
-            session.setAttribute("user", player.getUsername());
+            session.setAttribute("username", player.getUsername());
 
             return "redirect:/games";
         }

@@ -16,41 +16,34 @@ public class PlayerService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // ---------------- REGISTER ----------------
-    public String register(String username, String password) {
+   public PlayerModel register(String username, String password) {
 
-        // check if player existe
-        if (playerRepository.existsByUsername(username)) {
-            return "USERNAME_ALREADY_EXISTS";
-        }
-
-        // create player
-        PlayerModel player = new PlayerModel();
-        player.setUsername(username);
-        player.setPassword(passwordEncoder.encode(password));
-        player.setScore(0);
-
-        playerRepository.save(player);
-
-        return "REGISTER_SUCCESS";
+    if (playerRepository.existsByUsername(username)) {
+        return null;
     }
+
+    PlayerModel player = new PlayerModel();
+    player.setUsername(username);
+    player.setPassword(passwordEncoder.encode(password));
+
+    playerRepository.save(player);
+
+    return player;
+}
 
     // ---------------- LOGIN ----------------
-    public String login(String username, String password) {
 
-        Optional<PlayerModel> playerOpt = playerRepository.findByUsername(username);
+    public PlayerModel login(String username, String password) {
+    Optional<PlayerModel> playerOpt = playerRepository.findByUsername(username);
 
-        //if player not found
-        if (playerOpt.isEmpty()) {
-            return "USER_NOT_FOUND";
-        }
+    if (playerOpt.isEmpty()) return null;
 
-        PlayerModel player = playerOpt.get();
+    PlayerModel player = playerOpt.get();
 
-        // check password
-        if (!passwordEncoder.matches(password, player.getPassword())) {
-            return "WRONG_PASSWORD";
-        }
-
-        return "LOGIN_SUCCESS";
+    if (!passwordEncoder.matches(password, player.getPassword())) {
+        return null;
     }
+
+    return player;
+}
 }

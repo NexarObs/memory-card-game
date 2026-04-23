@@ -19,12 +19,7 @@ body {
     padding: 20px;
     overflow-x: hidden;
 
-    background:
-        radial-gradient(ellipse at 0% 0%,   #c9b8f0 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 0%,  #f5b8c8 0%, transparent 55%),
-        radial-gradient(ellipse at 0% 100%,  #f5e4a0 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 100%,#b8f0d8 0%, transparent 55%),
-        #f0eeff;
+    background: #e5ecef;
 }
 
 /* PANEL */

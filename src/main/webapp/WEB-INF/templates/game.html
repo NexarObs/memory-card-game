@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
-
     <link rel="stylesheet" th:href="@{/css/game.css}">
-    <script th:src="@{/js/game.js}"></script>
 </head>
-
 <body>
 
 <div class="game-container">
-
     <div class="top-bar">
-
         <h2>
             Memory Game -
-            Level <span th:text="${difficulty}"></span>
-            (
-            <span th:text="${gridSize}"></span>
-            x
-            <span th:text="${gridSize}"></span>
-            )
+            Level <span th:text="${game.difficulty}"></span>
+            (<span th:text="${gridSize}"></span>x<span th:text="${gridSize}"></span>)
         </h2>
-
-        <div class="actions">
-            <button class="btn save-btn">Save Game</button>
-            <a th:href="@{/games}" class="btn quit-btn">Quit Game</a>
+        <div class="tries">
+            Tries Left: <span id="triesLeft" th:text="${game.triesLeft}"></span>
         </div>
-
+        <div class="actions">
+            <button class="btn save-btn" onclick="saveGame()">Save Game</button>
+            <button class="btn quit-btn" onclick="quitGame()">Quit Game</button>
+        </div>
     </div>
 
     <div class="game-board"
+         id="gameBoard"
          th:style="'grid-template-columns: repeat(' + ${gridSize} + ', 100px)'">
 
         <div class="card"
-             th:each="i : ${#numbers.sequence(1, gridSize * gridSize)}">
-
-            <img th:src="@{/images/010.jpg}" alt="card">
-
+             th:each="card : ${boardState.cards}"
+             th:attr="data-index=${card.index}, data-value=${card.value}, data-matched=${card.matched}"
+             onclick="handleFlip(this)">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img th:src="@{/images/010.jpg}" alt="card">
+                </div>
+                <div class="card-back">
+                    <span th:text="${card.value}"></span>
+                </div>
+            </div>
         </div>
 
     </div>
-
 </div>
+
+<script th:inline="javascript">
+    const GAME_ID = [[${game.id}]];
+    const TOTAL_TRIES = [[${boardState.totalTries}]];
+</script>
+<script th:src="@{/js/game.js}"></script>
 
 </body>
 </html>

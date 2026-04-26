@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Menu — Memory Card Game</title>
+    <title>Memory Card Game</title>
 
-    <!-- Font Awesome (free CDN) -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-    <!-- Local CSS -->
     <link rel="stylesheet" th:href="@{/css/menu.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
     <script th:src="@{/js/menu.js}"></script>
 </head>
 <body>
@@ -25,12 +26,7 @@
     </a>
 
     <div class="navbar__actions">
-        <!-- Optionnel : lien vers les scores -->
-        <!--
-        <a href="#" class="btn-logout" style="color: var(--primary);">
-            <i class="fa-solid fa-trophy"></i> Scores
-        </a>
-        -->
+       
         <a th:href="@{/logout}" class="btn-logout">
             <i class="fa-solid fa-right-from-bracket"></i>
             Déconnexion

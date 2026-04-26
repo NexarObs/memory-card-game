@@ -7,6 +7,7 @@
     <title>Memory Game</title>
 
     <link rel="stylesheet" th:href="@{/css/game.css}">
+    <script th:src="@{/js/game.js}"></script>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
 
         <div class="actions">
             <button class="btn save-btn">Save Game</button>
-            <button class="btn quit-btn">Quit Game</button>
+            <a class="btn quit-btn" th:href="@{/games}">Quit Game</a>
         </div>
     </div>
 

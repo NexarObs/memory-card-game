@@ -1,0 +1,10 @@
+{
+  "cards": [
+    {"index": 0, "value": "A", "matched": false, "flipped": false},
+    {"index": 1, "value": "B", "matched": false, "flipped": false}
+  ],
+  "triesLeft": 3,
+  "totalTries": 3,
+  "difficulty": "easy",
+  "gridSize": "2x2"
+}

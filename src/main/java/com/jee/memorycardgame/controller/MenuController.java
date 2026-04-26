@@ -1,7 +1,6 @@
 package com.jee.memorycardgame.controller;
 
 import com.jee.memorycardgame.service.GameService;
-import com.jee.memorycardgame.model.GameModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -18,13 +17,16 @@ public class MenuController {
 
     // MENU PAGE
     @GetMapping("")
-    public String menu(HttpSession session, Model model) {
-
+    public String menu(
+            @RequestParam(required = false) String result,
+            HttpSession session,
+            Model model
+    ) {
         Integer userId = (Integer) session.getAttribute("userId");
-
         if (userId == null) return "redirect:/login";
 
         model.addAttribute("games", gameService.getPlayerGames(userId));
+        model.addAttribute("result", result);
 
         return "menu";
     }
@@ -32,27 +34,16 @@ public class MenuController {
     // NEW GAME
     @PostMapping("/new")
     public String newGame(@RequestParam String difficulty, HttpSession session) {
-
         Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
 
         int gameId = gameService.createGame(userId, difficulty);
-
-        return "redirect:/game" + gameId;
+        return "redirect:/game/" + gameId;
     }
 
     // LOAD GAME
     @GetMapping("/load/{id}")
     public String loadGame(@PathVariable int id) {
-        return "redirect:/game/save" + id;
-    }
-
-    // PLAY PAGE
-    @GetMapping("/play/{id}")
-    public String playGame(@PathVariable int id, Model model) {
-
-        GameModel game = gameService.loadGame(id);
-        model.addAttribute("game", game);
-
-        return "game";
+        return "redirect:/game/" + id;
     }
 }

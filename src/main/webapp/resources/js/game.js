@@ -111,7 +111,7 @@
         .then(res => res.text())
         .then(result => {
             if (result === "saved") {
-                window.location.href = "/menu";
+                window.location.href = "/games";
             }
         });
     };
@@ -126,7 +126,7 @@
         .then(res => res.text())
         .then(result => {
             if (result === "deleted") {
-                window.location.href = "/menu";
+                window.location.href = "/games";
             }
         });
     };
@@ -141,9 +141,9 @@
         .then(res => res.text())
         .then(() => {
             if (outcome === "won") {
-                window.location.href = "/menu?result=won";
+                window.location.href = "/games?result=won";
             } else {
-                window.location.href = "/menu?result=lost";
+                window.location.href = "/games?result=lost";
             }
         });
     }

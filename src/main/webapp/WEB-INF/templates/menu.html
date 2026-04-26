@@ -1,176 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Menu — Memory Card Game</title>
 
-    <!-- Font Awesome (free CDN) -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Local CSS -->
-    <link rel="stylesheet" th:href="@{/css/menu.css}"/>
+    <link rel="stylesheet" th:href="@{/css/menu.css}" />
     <script th:src="@{/js/menu.js}"></script>
 </head>
+
 <body>
 
-<!-- ═══════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════
      NAVBAR
 ═══════════════════════════════════════════ -->
-<nav class="navbar">
-    <a href="#" class="navbar__brand">
-        <i class="fa-solid fa-cards-blank"></i>
-        Memory Game
-    </a>
-
-    <div class="navbar__actions">
-        <!-- Optionnel : lien vers les scores -->
-        <!--
-        <a href="#" class="btn-logout" style="color: var(--primary);">
-            <i class="fa-solid fa-trophy"></i> Scores
+    <nav class="navbar">
+        <a href="#" class="navbar__brand">
+            <i class="fa-solid fa-cards-blank"></i>
+            Memory Game
         </a>
-        -->
-        <a th:href="@{/logout}" class="btn-logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Déconnexion
-        </a>
-    </div>
-</nav>
+        <div class="navbar__actions">
+            <a th:href="@{/logout}" class="btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Déconnexion
+            </a>
+        </div>
+    </nav>
 
 
-<!-- ═══════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════
      MAIN CONTENT
 ═══════════════════════════════════════════ -->
-<main class="main">
+    <main class="main">
 
-    <!-- ── Page Header ── -->
-    <div class="page-header">
-        <h1 class="page-header__title">
-            <i class="fa-solid fa-hand-wave" style="color: var(--primary);"></i>
-            Bienvenue, <span th:text="${session.username}">Joueur</span> !
-        </h1>
-        <p class="page-header__subtitle">Lancez une nouvelle partie memory game!</p>
-    </div>
+        <!-- ── Result Banner ── -->
+        <div th:if="${result != null}" th:class="${result == 'won'} ? 'banner banner--won' : 'banner banner--lost'">
+            <span th:if="${result == 'won'}">
+                <i class="fa-solid fa-trophy"></i> Vous avez gagné !
+            </span>
+            <span th:if="${result == 'lost'}">
+                <i class="fa-solid fa-skull-crossbones"></i> Vous avez perdu. Réessayez !
+            </span>
+        </div>
+
+        <!-- ── Page Header ── -->
+        <div class="page-header">
+            <h1 class="page-header__title">
+                <i class="fa-solid fa-hand-wave" style="color: var(--primary);"></i>
+                Bienvenue, <span th:text="${session.username}">Joueur</span> !
+            </h1>
+            <p class="page-header__subtitle">Lancez une nouvelle partie memory game!</p>
+        </div>
 
 
-    <!-- ══════════════════════════════════════
+        <!-- ══════════════════════════════════════
          SECTION 1 — Nouvelle partie
     ══════════════════════════════════════ -->
-    <section class="section">
-        <h2 class="section__heading">
-            <i class="fa-solid fa-circle-play"></i>
-            Nouvelle partie
-        </h2>
+        <section class="section">
+            <h2 class="section__heading">
+                <i class="fa-solid fa-circle-play"></i>
+                Nouvelle partie
+            </h2>
 
-        <!-- Bouton déclencheur -->
-        <button type="button" class="btn-new-game" id="toggleDifficulty">
-            <i class="fa-solid fa-plus"></i>
-            Nouvelle partie
-        </button>
+            <button type="button" class="btn-new-game" id="toggleDifficulty">
+                <i class="fa-solid fa-plus"></i>
+                Nouvelle partie
+            </button>
 
-        <!-- Panneau de sélection de difficulté (caché par défaut) -->
-        <div class="difficulty-panel is-hidden" id="difficultyPanel">
-            <p class="difficulty-panel__label">Choisissez une difficulté</p>
+            <div class="difficulty-panel is-hidden" id="difficultyPanel">
+                <p class="difficulty-panel__label">Choisissez une difficulté</p>
 
-            <div class="difficulty-grid">
+                <div class="difficulty-grid">
 
-                <!-- Easy -->
-                <form th:action="@{/games/new}" method="post">
-                    <input type="hidden" name="difficulty" value="easy"/>
-                    <button type="submit" class="diff-btn diff-btn--easy">
-                        <span class="diff-btn__icon"><i class="fa-solid fa-seedling"></i></span>
-                        <span class="diff-btn__label">Facile</span>
-                        <span class="diff-btn__hint">4 × 3 — 12 cartes</span>
-                    </button>
-                </form>
+                    <!-- Easy -->
+                    <form th:action="@{/games/new}" method="post">
+                        <input type="hidden" name="difficulty" value="easy" />
+                        <button type="submit" class="diff-btn diff-btn--easy">
+                            <span class="diff-btn__icon"><i class="fa-solid fa-seedling"></i></span>
+                            <span class="diff-btn__label">Facile</span>
+                            <span class="diff-btn__hint">2 × 2 — 4 cartes</span>
+                        </button>
+                    </form>
 
-                <!-- Medium -->
-                <form th:action="@{/games/new}" method="post">
-                    <input type="hidden" name="difficulty" value="medium"/>
-                    <button type="submit" class="diff-btn diff-btn--medium">
-                        <span class="diff-btn__icon"><i class="fa-solid fa-gauge-high"></i></span>
-                        <span class="diff-btn__label">Moyen</span>
-                        <span class="diff-btn__hint">4 × 4 — 16 cartes</span>
-                    </button>
-                </form>
+                    <!-- Medium -->
+                    <form th:action="@{/games/new}" method="post">
+                        <input type="hidden" name="difficulty" value="medium" />
+                        <button type="submit" class="diff-btn diff-btn--medium">
+                            <span class="diff-btn__icon"><i class="fa-solid fa-gauge-high"></i></span>
+                            <span class="diff-btn__label">Moyen</span>
+                            <span class="diff-btn__hint">3 × 4 — 12 cartes</span>
+                        </button>
+                    </form>
 
-                <!-- Hard -->
-                <form th:action="@{/games/new}" method="post">
-                    <input type="hidden" name="difficulty" value="hard"/>
-                    <button type="submit" class="diff-btn diff-btn--hard">
-                        <span class="diff-btn__icon"><i class="fa-solid fa-skull-crossbones"></i></span>
-                        <span class="diff-btn__label">Difficile</span>
-                        <span class="diff-btn__hint">6 × 4 — 24 cartes</span>
-                    </button>
-                </form>
+                    <!-- Hard -->
+                    <form th:action="@{/games/new}" method="post">
+                        <input type="hidden" name="difficulty" value="hard" />
+                        <button type="submit" class="diff-btn diff-btn--hard">
+                            <span class="diff-btn__icon"><i class="fa-solid fa-skull-crossbones"></i></span>
+                            <span class="diff-btn__label">Difficile</span>
+                            <span class="diff-btn__hint">4 × 4 — 16 cartes</span>
+                        </button>
+                    </form>
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
-    <!-- ══════════════════════════════════════
+        <!-- ══════════════════════════════════════
          SECTION 2 — Parties sauvegardées
     ══════════════════════════════════════ -->
-    <section class="section">
-        <h2 class="section__heading">
-            <i class="fa-solid fa-floppy-disk"></i>
-            Parties sauvegardées
-        </h2>
+        <section class="section">
+            <h2 class="section__heading">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Parties sauvegardées
+            </h2>
 
-        <!-- ── CAS : aucune partie sauvegardée ── -->
-        <div class="empty-state" th:if="${#lists.isEmpty(games)}">
-            <i class="fa-regular fa-folder-open"></i>
-            <p>Aucune partie sauvegardée pour l'instant.<br/>Lancez votre première partie ci-dessus !</p>
-        </div>
-
-        <!-- ── CAS : liste des parties ── -->
-        <div class="saved-games-grid" th:unless="${#lists.isEmpty(games)}">
-
-            <div class="game-card" th:each="game : ${games}">
-
-                <div class="game-card__header">
-                    <span class="game-card__id">Partie #<span th:text="${game.id}">1</span></span>
-
-                    <!-- Badge difficulté -->
-                    <span class="badge"
-                          th:classappend="'badge--' + ${game.difficulty}"
-                          th:text="${game.difficulty}">easy</span>
-                </div>
-
-                <div class="game-card__meta">
-                    <span>
-                        <i class="fa-regular fa-calendar"></i>
-                        <span th:text="${#dates.format(game.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span>
-                    </span>
-                    <span>
-                        <i class="fa-solid fa-rotate-left"></i>
-                        Essais restants : <span th:text="${game.triesLeft}">0</span>
-                    </span>
-                </div>
-
-                <!-- Bouton charger la partie -->
-                <a th:href="@{/games/load/{id}(id=${game.id})}" class="btn-load">
-                    <i class="fa-solid fa-play"></i>
-                    Reprendre
-                </a>
-
+            <div class="empty-state" th:if="${#lists.isEmpty(games)}">
+                <i class="fa-regular fa-folder-open"></i>
+                <p>Aucune partie sauvegardée pour l'instant.<br />Lancez votre première partie ci-dessus !</p>
             </div>
 
-        </div><!-- /saved-games-grid -->
-    </section>
+            <div class="saved-games-grid" th:unless="${#lists.isEmpty(games)}">
 
-</main>
+                <div class="game-card" th:each="game : ${games}">
+
+                    <div class="game-card__header">
+                        <span class="game-card__id">Partie #<span th:text="${game.id}">1</span></span>
+                        <span class="badge" th:classappend="'badge--' + ${game.difficulty}"
+                            th:text="${game.difficulty}">easy</span>
+                    </div>
+
+                    <div class="game-card__meta">
+                        <span>
+                            <i class="fa-regular fa-calendar"></i>
+                            <span th:text="${#dates.format(game.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span>
+                        </span>
+                        <span>
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Essais restants : <span th:text="${game.triesLeft}">0</span>
+                        </span>
+                    </div>
+
+                    <a th:href="@{/games/load/{id}(id=${game.id})}" class="btn-load">
+                        <i class="fa-solid fa-play"></i>
+                        Reprendre
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
 
 
-<!-- ═══════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════
      FOOTER
 ═══════════════════════════════════════════ -->
-<footer class="footer">
-    Memory Card Game &copy; 2025 — Projet JEE
-</footer>
-
+    <footer class="footer">
+        Memory Card Game &copy; 2025 — Projet JEE
+    </footer>
 
 </body>
+
 </html>

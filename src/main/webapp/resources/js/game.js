@@ -54,12 +54,15 @@
             triesLeft--;
             updateTriesDisplay();
 
+            firstCard.classList.add("shake");
+            secondCard.classList.add("shake");
+
             if (triesLeft <= 0) {
                 setTimeout(() => endGame("lost"), 800);
             } else {
                 setTimeout(() => {
-                    firstCard.classList.remove("flipped");
-                    secondCard.classList.remove("flipped");
+                    firstCard.classList.remove("flipped", "shake");
+                    secondCard.classList.remove("flipped", "shake");
                     resetTurn();
                 }, 1000);
             }
@@ -108,12 +111,12 @@
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `gameId=${GAME_ID}&boardState=${encodeURIComponent(boardState)}&triesLeft=${triesLeft}`
         })
-        .then(res => res.text())
-        .then(result => {
-            if (result === "saved") {
-                window.location.href = "/games";
-            }
-        });
+            .then(res => res.text())
+            .then(result => {
+                if (result === "saved") {
+                    window.location.href = "/games";
+                }
+            });
     };
 
     // QUIT GAME
@@ -123,12 +126,12 @@
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `gameId=${GAME_ID}`
         })
-        .then(res => res.text())
-        .then(result => {
-            if (result === "deleted") {
-                window.location.href = "/games";
-            }
-        });
+            .then(res => res.text())
+            .then(result => {
+                if (result === "deleted") {
+                    window.location.href = "/games";
+                }
+            });
     };
 
     // END GAME (win or lose)
@@ -138,14 +141,14 @@
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `gameId=${GAME_ID}`
         })
-        .then(res => res.text())
-        .then(() => {
-            if (outcome === "won") {
-                window.location.href = "/games?result=won";
-            } else {
-                window.location.href = "/games?result=lost";
-            }
-        });
+            .then(res => res.text())
+            .then(() => {
+                if (outcome === "won") {
+                    window.location.href = "/games?result=won";
+                } else {
+                    window.location.href = "/games?result=lost";
+                }
+            });
     }
 
 })();

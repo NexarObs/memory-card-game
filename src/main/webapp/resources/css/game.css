@@ -1,24 +1,51 @@
+/* ============================================================
+   game.css — Memory Card Game · Game Board
+   ============================================================ */
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
     background: #121212;
     color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* ── Game Container ── */
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    width: 100%;
 }
 
+/* ── Top Bar ── */
 .top-bar {
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.top-bar h2 {
+    font-size: 1rem;
+    color: #ccc;
+    font-weight: 600;
+}
+
+.tries {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f59e0b;
 }
 
 .actions {
@@ -26,44 +53,135 @@ body {
     gap: 10px;
 }
 
+/* ── Buttons ── */
 .btn {
-    padding: 8px 12px;
+    padding: 8px 14px;
     border: none;
     cursor: pointer;
     font-weight: bold;
     border-radius: 6px;
+    font-size: 0.85rem;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-.save-btn {
-    background: #2ecc71;
-    color: white;
-}
+.btn:hover  { opacity: 0.88; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
 
-.quit-btn {
-    background: #e74c3c;
-    color: white;
-}
+.save-btn { background: #2ecc71; color: white; }
+.quit-btn { background: #e74c3c; color: white; }
 
+/* ── Game Board ── */
 .game-board {
     display: grid;
-    grid-template-columns: repeat(2, 100px);
     gap: 15px;
+    margin-top: 10px;
 }
 
+/* ── Card ── */
 .card {
     width: 100px;
     height: 100px;
-    background: #1f1f1f;
+    cursor: pointer;
+    perspective: 800px;
+    position: relative;
+}
+
+/* Card inner — the flipping element */
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
     border-radius: 10px;
-    overflow: hidden;
+}
+
+/* Flipped state */
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Matched state — stays flipped, subtle glow */
+.card.matched .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    pointer-events: none;
+}
+
+.card.matched .card-back {
+    background: #1a3a2a;
+    border: 2px solid #2ecc71;
+    box-shadow: 0 0 12px rgba(46, 204, 113, 0.5);
+}
+
+/* Card faces */
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    overflow: hidden;
 }
 
-.card img {
+/* Front — the cover image */
+.card-front {
+    background: #1f1f1f;
+    border: 2px solid #2a2a2a;
+}
+
+.card-front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Back — the card value */
+.card-back {
+    background: #1e3a5f;
+    border: 2px solid #3b82f6;
+    transform: rotateY(180deg);
+}
+
+.card-back span {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #93c5fd;
+    user-select: none;
+}
+
+/* ── Card hover effect (unflipped only) ── */
+.card:not(.flipped):not(.matched):hover .card-inner {
+    transform: rotateY(15deg);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Match animation ── */
+@keyframes matchPop {
+    0%   { transform: rotateY(180deg) scale(1); }
+    50%  { transform: rotateY(180deg) scale(1.12); }
+    100% { transform: rotateY(180deg) scale(1); }
+}
+
+.card.matched .card-inner {
+    animation: matchPop 0.35s ease forwards;
+}
+
+/* ── Mismatch shake animation ── */
+@keyframes shake {
+    0%, 100% { transform: rotateY(180deg) translateX(0); }
+    25%       { transform: rotateY(180deg) translateX(-6px); }
+    75%       { transform: rotateY(180deg) translateX(6px); }
+}
+
+.card.shake .card-inner {
+    animation: shake 0.4s ease;
 }

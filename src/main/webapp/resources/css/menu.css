@@ -394,6 +394,36 @@ body {
   font-weight: 600;
 }
 
+
+/* ═══════════════════════════════════════════
+   RESULT BANNER
+═══════════════════════════════════════════ */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .9rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.banner--won {
+  background: var(--easy-soft);
+  color: var(--easy);
+  border: 1px solid var(--easy);
+}
+
+.banner--lost {
+  background: var(--hard-soft);
+  color: var(--hard);
+  border: 1px solid var(--hard);
+}
+
+
 /* ═══════════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════════ */

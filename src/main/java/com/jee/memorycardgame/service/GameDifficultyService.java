@@ -19,8 +19,8 @@ public class GameDifficultyService {
         if (difficulty == null) return 3;
         switch (difficulty.toLowerCase()) {
             case "easy":   return 3;
-            case "medium": return 4;
-            case "hard":   return 5;
+            case "medium": return 8;
+            case "hard":   return 10;
             default:       return 3;
         }
     }

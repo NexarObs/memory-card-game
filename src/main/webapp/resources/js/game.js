@@ -119,20 +119,7 @@
             });
     };
 
-    // QUIT GAME
-    window.quitGame = function () {
-        fetch("/games/quit", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `gameId=${GAME_ID}`
-        })
-            .then(res => res.text())
-            .then(result => {
-                if (result === "deleted") {
-                    window.location.href = "/games";
-                }
-            });
-    };
+
 
     // END GAME (win or lose)
     function endGame(outcome) {

@@ -106,7 +106,8 @@ body::before {
 
 .btn-logout {
   font-family: var(--outfit);
-  font-size: 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 800;
   color: #0a0a1a;
   background: var(--accent-hot);
   padding: 8px 14px;
@@ -330,7 +331,7 @@ body::before {
 ═══════════════════════════════════════════════════════════ */
 .btn-new-game {
   font-family: var(--outfit);
-  font-size: 0.48rem;
+  font-size: 0.7rem;
   color: #0a0a1a;
   background: var(--cyan);
   padding: 12px 20px;
@@ -378,7 +379,7 @@ body::before {
 
 .diff-btn {
   font-family: var(--outfit);
-  font-size: 0.32rem;
+  font-size: 0.9rem;
   color: #0a0a1a;
   padding: 16px 8px;
   border: none;
@@ -397,13 +398,9 @@ body::before {
 }
 
 .diff-btn__label {
-  font-size: 0.38rem;
+  font-size: 0.7rem;
 }
 
-.diff-btn__hint {
-  font-size: 0.27rem;
-  opacity: 0.75;
-}
 
 .diff-btn--easy {
   background: var(--green);

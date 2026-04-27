@@ -240,6 +240,7 @@ body::before {
 .quit-btn {
     background: var(--red);
     box-shadow: 0 4px 0 #7f1d1d, 0 5px 0 #000;
+    text-decoration: none;
 }
 
 /* ═══════════════════════════════════════════════════════════

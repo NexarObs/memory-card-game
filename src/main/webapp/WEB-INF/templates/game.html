@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" th:href="@{/css/game.css}">
     <script th:src="@{/js/game.js}"></script>
 </head>
@@ -19,16 +25,17 @@
                 (<span th:text="${gridSize}"></span>x<span th:text="${gridSize}"></span>)
             </h2>
             <div class="tries">
+                <i class="fa-solid fa-heart"></i>
                 Tries Left: <span id="triesLeft" th:text="${game.triesLeft}"></span>
             </div>
             <div class="actions">
                 <button class="btn save-btn" onclick="saveGame()">Save Game</button>
-                <button class="btn quit-btn" onclick="quitGame()">Quit Game</button>
+                <a class="btn quit-btn" th:href="@{/games}">Quit Game</a>
             </div>
         </div>
 
         <div class="game-board" id="gameBoard" th:attr="data-difficulty=${game.difficulty}"
-            th:style="'grid-template-columns: repeat(' + ${gridSize} + ', 100px)'">
+            th:style="'grid-template-columns: repeat(' + ${gridSize} + ', 110px)'">
 
             <div class="card" th:each="card : ${boardState.cards}"
                 th:attr="data-index=${card.index}, data-value=${card.value}, data-matched=${card.matched}"

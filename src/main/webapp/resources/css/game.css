@@ -1,187 +1,540 @@
-/* ============================================================
-   game.css — Memory Card Game · Game Board
-   ============================================================ */
+/* ===============================================================
+   MEMORY GAME — game.css
+   Pixel Art style — cohérent avec login-register.css & menu.css
+   Requires: Press Start 2P
+   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+   =============================================================== */
 
-/* ── Base ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Variables (identiques au login & menu) ─────────────────── */
+:root {
+    --bg: #06080f;
+    --panel-fill: #0c0f1e;
+    --panel-border: #1e2a4a;
+    --accent: #c084fc;
+    --accent-hot: #f472b6;
+    --border-deep: #3b1a7a;
+    --cyan: #22d3ee;
+    --dot: #4fc3f7;
+    --yellow: #facc15;
+    --green: #4ade80;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #4a5580;
+    --pixel: 'Press Start 2P', monospace;
+    --outfit: "Outfit", sans-serif;
+}
 
+/* ── Reset ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── Body — starfield + scanlines ───────────────────────────── */
 body {
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: white;
+    font-family: var(--pixel);
+        background-color: var(--bg);
+        color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    background-image:
+            radial-gradient(circle, #ffffff14 1px, transparent 1px),
+            radial-gradient(circle, #ffffff08 1px, transparent 1px);
+        background-size: 36px 36px, 72px 72px;
+        background-position: 0 0, 18px 18px;
+        position: relative;
 }
 
-/* ── Game Container ── */
+/* CRT scanlines */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent, transparent 3px,
+            rgba(0, 0, 0, 0.09) 3px, rgba(0, 0, 0, 0.09) 4px);
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GAME CONTAINER
+═══════════════════════════════════════════════════════════ */
 .game-container {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 100%;
+    padding: 1.2rem;
+        gap: 1.4rem;
 }
 
-/* ── Top Bar ── */
+/* ═══════════════════════════════════════════════════════════
+   TOP BAR — pixel stair panel (même technique que .section)
+═══════════════════════════════════════════════════════════ */
 .top-bar {
-    width: 100%;
-    max-width: 700px;
+    position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
+        padding: 1rem 1.6rem;
+        background: transparent;
+    }
+    
+    /* Fill layer */
+    .top-bar::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: var(--panel-fill);
+        clip-path: polygon(0px 16px,
+                4px 16px, 4px 8px,
+                8px 8px, 8px 4px,
+                16px 4px, 16px 0px,
+                calc(100% - 16px) 0px,
+                calc(100% - 16px) 4px,
+                calc(100% - 8px) 4px,
+                calc(100% - 8px) 8px,
+                calc(100% - 4px) 8px,
+                calc(100% - 4px) 16px,
+                100% 16px,
+                100% calc(100% - 16px),
+                calc(100% - 4px) calc(100% - 16px),
+                calc(100% - 4px) calc(100% - 8px),
+                calc(100% - 8px) calc(100% - 8px),
+                calc(100% - 8px) calc(100% - 4px),
+                calc(100% - 16px) calc(100% - 4px),
+                calc(100% - 16px) 100%,
+                16px 100%,
+                16px calc(100% - 4px),
+                8px calc(100% - 4px),
+                8px calc(100% - 8px),
+                4px calc(100% - 8px),
+                4px calc(100% - 16px),
+                0px calc(100% - 16px));
+    }
+    
+    /* Border ring */
+    .top-bar::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        z-index: -2;
+        background: var(--panel-border);
+        clip-path: polygon(0px 18px,
+                4px 18px, 4px 10px,
+                8px 10px, 8px 6px,
+                10px 6px, 10px 4px,
+                18px 4px, 18px 0px,
+                calc(100% - 18px) 0px,
+                calc(100% - 18px) 4px,
+                calc(100% - 10px) 4px,
+                calc(100% - 10px) 6px,
+                calc(100% - 8px) 6px,
+                calc(100% - 8px) 10px,
+                calc(100% - 4px) 10px,
+                calc(100% - 4px) 18px,
+                100% 18px,
+                100% calc(100% - 18px),
+                calc(100% - 4px) calc(100% - 18px),
+                calc(100% - 4px) calc(100% - 10px),
+                calc(100% - 8px) calc(100% - 10px),
+                calc(100% - 8px) calc(100% - 6px),
+                calc(100% - 10px) calc(100% - 6px),
+                calc(100% - 10px) calc(100% - 4px),
+                calc(100% - 18px) calc(100% - 4px),
+                calc(100% - 18px) 100%,
+                18px 100%,
+                18px calc(100% - 4px),
+                10px calc(100% - 4px),
+                10px calc(100% - 6px),
+                8px calc(100% - 6px),
+                8px calc(100% - 10px),
+                4px calc(100% - 10px),
+                4px calc(100% - 18px),
+                0px calc(100% - 18px));
 }
 
+/* Title */
 .top-bar h2 {
-    font-size: 1rem;
-    color: #ccc;
-    font-weight: 600;
+    font-size: clamp(0.6rem, 1.8vw, 0.54rem);
+        color: var(--accent);
+        text-shadow: 2px 2px 0 #000;
+        letter-spacing: 0.06em;
+        line-height: 1.9;
 }
 
+/* ── Tries Counter ───────────────────────────────────────────── */
 .tries {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #f59e0b;
+    font-size: 0.5rem;
+        color: var(--red);
+        letter-spacing: 0.06em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .tries .fa-heart {
+        color: var(--red);
+        font-size: 16px;
+        display: inline-block;
+        animation: heartbeat 1s step-start infinite;
+    }
+    
+    @keyframes heartbeat {
+    
+        0%,
+        49% {
+            transform: scale(1);
+        }
+    
+        50%,
+        100% {
+            transform: scale(1.3);
+        }
+    }
+    
+    #triesLeft {
+        color: var(--cyan);
+        text-shadow: 0 0 8px var(--cyan);
 }
 
+/* ── Action Buttons ──────────────────────────────────────────── */
 .actions {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
-/* ── Buttons ── */
 .btn {
-    padding: 8px 14px;
+    font-family: var(--outfit);
+        font-size: 0.7rem;
+        color: #0a0a1a;
+        padding: 9px 16px;
     border: none;
     cursor: pointer;
-    font-weight: bold;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    transition: opacity 0.2s ease, transform 0.1s ease;
+    letter-spacing: 0.05em;
+        transition: filter 0.12s, transform 0.07s, box-shadow 0.07s;
 }
 
-.btn:hover  { opacity: 0.88; transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
+.btn:hover {
+    filter: brightness(1.12);
+}
 
-.save-btn { background: #2ecc71; color: white; }
-.quit-btn { background: #e74c3c; color: white; }
+.btn:active {
+    transform: translateY(4px);
+    box-shadow: none !important;
+}
 
-/* ── Game Board ── */
+.save-btn {
+    background: var(--green);
+    box-shadow: 0 4px 0 #166534, 0 5px 0 #000;
+}
+
+.quit-btn {
+    background: var(--red);
+    box-shadow: 0 4px 0 #7f1d1d, 0 5px 0 #000;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GAME BOARD
+═══════════════════════════════════════════════════════════ */
 .game-board {
     display: grid;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 14px;
+        justify-content: center;
+        align-content: start;
+        padding: 1.2rem 0.5rem;
+        /* grid-template-columns is set inline via Thymeleaf */
 }
 
-/* ── Card ── */
+/* ═══════════════════════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════════════════════ */
 .card {
     width: 100px;
-    height: 100px;
+    height: 120px;
     cursor: pointer;
-    perspective: 800px;
+    perspective: 700px;
     position: relative;
+    /* entrance stagger — JS can override with style="animation-delay:.Xs" */
+        animation: cardDrop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Card inner — the flipping element */
+@keyframes cardDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Card Inner (3-D flip container) ─────────────────────────── */
 .card-inner {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-    border-radius: 10px;
+
+    /* stepped flip = pixel-feel, not smooth lerp */
+        transition: transform 0.4s steps(8);
 }
 
-/* Flipped state */
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
-/* Matched state — stays flipped, subtle glow */
+/* Flip trigger classes (toggled by game.js) */
+.card.flipped .card-inner,
 .card.matched .card-inner {
     transform: rotateY(180deg);
 }
 
-.card.matched {
-    pointer-events: none;
-}
-
-.card.matched .card-back {
-    background: #1a3a2a;
-    border: 2px solid #2ecc71;
-    box-shadow: 0 0 12px rgba(46, 204, 113, 0.5);
-}
-
-/* Card faces */
+/* ── Shared face styles ────────────────────────────────────────
+   Both faces share the pixel stair clip-path
+─────────────────────────────────────────────────────────── */
 .card-front,
 .card-back {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+    inset: 0;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
+    border-radius: 5px;
 }
 
-/* Front — the cover image */
+/* ── FRONT — the hidden face (card back design) ──────────────── */
+/* ── FRONT — card hidden face ── */
 .card-front {
-    background: #1f1f1f;
-    border: 2px solid #2a2a2a;
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--panel-fill);
+    transition: background 0.1s, transform 0.1s;
+
+    clip-path: polygon(4px 0px, 4px 2px, 2px 2px, 2px 4px, 0px 4px,
+            0px calc(100% - 4px), 2px calc(100% - 4px), 2px calc(100% - 2px),
+            4px calc(100% - 2px), 4px 100%,
+            calc(100% - 4px) 100%, calc(100% - 4px) calc(100% - 2px),
+            calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 4px),
+            100% calc(100% - 4px), 100% 4px,
+            calc(100% - 2px) 4px, calc(100% - 2px) 2px,
+            calc(100% - 4px) 2px, calc(100% - 4px) 0px);
+
+    border-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_183_5329)'%3E%3Cpath d='M2 0H3V1H2V0ZM3 0H4V1H3V0ZM1 1H2V2H1V1ZM4 1H5V2H4V1ZM0 2H1V3H0V2ZM5 2H6V3H5V2ZM0 3H1V4H0V3ZM5 3H6V4H5V3ZM1 4H2V5H1V4ZM4 4H5V5H4V4ZM2 5H3V6H2V5ZM3 5H4V6H3V5Z' fill='%2300568D'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_183_5329'%3E%3Crect width='6' height='6' fill='white'/%3E%3C/ClipPath%3E%3C/defs%3E%3C/svg%3E") 2 / 4px / 0px stretch;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--border-deep)
 }
 
+.card:not(.matched):not(.flipped):hover .card-front {
+    background: #14adff22;
+    border-color: #14adff;
+}
+
+/* ── BACK — revealed face ── */
+.card-back {
+position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+transform: rotateY(180deg);
+    background: #070a14;
+    transition: background 0.1s, transform 0.1s;
+
+    clip-path: polygon(4px 0px, 4px 2px, 2px 2px, 2px 4px, 0px 4px,
+            0px calc(100% - 4px), 2px calc(100% - 4px), 2px calc(100% - 2px),
+            4px calc(100% - 2px), 4px 100%,
+            calc(100% - 4px) 100%, calc(100% - 4px) calc(100% - 2px),
+            calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 4px),
+            100% calc(100% - 4px), 100% 4px,
+            calc(100% - 2px) 4px, calc(100% - 2px) 2px,
+            calc(100% - 4px) 2px, calc(100% - 4px) 0px);
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--accent)
+}
+
+/* matched — bordure verte */
+.card.matched .card-back {
+    border-color: var(--green);
+    box-shadow: 0 0 14px #4ade8055;
+    animation: matchFlash 0.5s steps(4) forwards;
+}
+/* .card-front {
+    background: var(--panel-fill);
+        border: 2px solid var(--border-deep);
+        box-shadow: inset 0 0 0 1px #7c3aed22;
+        transition: border-color 0.12s, box-shadow 0.12s;
+} */
+
+/* cover image */
 .card-front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
-}
-
-/* Back — the card value */
+    image-rendering: pixelated;
+        opacity: 0.8;
+    }
+        /* fallback '?' when no image */
+        .card-front:not(:has(img))::after,
+        .card-front img[src=""]::after {
+            content: '?';
+            font-family: var(--pixel);
+            font-size: 1.4rem;
+            color: var(--border-deep);
+            text-shadow: 1px 1px 0 #000;
+        }
+    
+        /* hover glow on unmatched cards */
+        .card:not(.matched):not(.flipped):hover .card-front {
+            border-color: var(--accent);
+            box-shadow:
+                inset 0 0 0 1px #c084fc33,
+                0 0 10px #c084fc44;
+        }
+    
+        /* ── BACK — revealed value face ────────────────────────────────
 .card-back {
-    background: #1e3a5f;
-    border: 2px solid #3b82f6;
+    background: #070a14;
     transform: rotateY(180deg);
-}
+    border: 2px solid var(--cyan);
+        box-shadow: inset 0 0 16px #22d3ee1a;
+    
+        */
 
 .card-back span {
     font-size: 2rem;
-    font-weight: 800;
-    color: #93c5fd;
-    user-select: none;
+    filter: drop-shadow(0 0 6px var(--cyan));
+        /* if value is text, use Press Start 2P */
+        font-family: var(--pixel);
+        color: var(--cyan);
+        text-shadow: 0 0 8px var(--cyan);
+    }
+    
+    /* ── MATCHED state ───────────────────────────────────────────── */
+    .card.matched {
+        cursor: default;
+        pointer-events: none;
+    }
+    
+    .card.matched .card-back {
+        border-color: var(--green);
+        box-shadow:
+            inset 0 0 16px #4ade8022,
+            0 0 14px #4ade8055;
+        animation: matchFlash 0.5s steps(4) forwards;
+    }
+    
+    @keyframes matchFlash {
+        0% {
+            filter: brightness(2) saturate(1.5);
+        }
+    
+        100% {
+            filter: brightness(1) saturate(1);
+        }
+    }
+    
+    /* ── Corner Dot Gems on each card ─────────────────────────────
+                                               Add 4 <span class="cdot tl/tr/bl/br"></span> inside .card
+                                               (same pattern as .panel and .section)
+                                            ─────────────────────────────────────────────────────────── */
+    .card .cdot {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--dot);
+        box-shadow: 0 0 4px var(--dot);
+        z-index: 3;
+        pointer-events: none;
+        animation: dotPulse 2.5s step-start infinite;
+    }
+    
+    @keyframes dotPulse {
+    
+        0%,
+        60%,
+        100% {
+            opacity: 1;
+        }
+    
+        70%,
+        85% {
+            opacity: 0.2;
+        }
+    }
+    
+    /* ═══════════════════════════════════════════════════════════
+                                               RESPONSIVE
+                                            ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 680px) {
+        .game-container {
+            padding: 0.8rem;
+            gap: 1rem;
+        }
+    
+        .top-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0.9rem 1rem;
+        }
+    
+        .top-bar h2 {
+            font-size: 0.4rem;
+        }
+    
+        .tries {
+            font-size: 0.38rem;
+        }
+    
+        .btn {
+            font-size: 0.32rem;
+            padding: 7px 12px;
+        }
+    
+        /* shrink cards on small screens */
+        .card {
+            width: 72px;
+            height: 72px;
+        }
+
+                                                                .card-back span {
+                                                                    font-size: 1.4rem;
+                                                                }
+
+                                                                .game-board {
+                                                                    gap: 10px;
+                                                                }
 }
 
-/* ── Card hover effect (unflipped only) ── */
-.card:not(.flipped):not(.matched):hover .card-inner {
-    transform: rotateY(15deg);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
+@media (max-width: 420px) {
+    .card {
+        width: 58px;
+        height: 58px;
+    }
 
-/* ── Match animation ── */
-@keyframes matchPop {
-    0%   { transform: rotateY(180deg) scale(1); }
-    50%  { transform: rotateY(180deg) scale(1.12); }
-    100% { transform: rotateY(180deg) scale(1); }
-}
+                                                                .card-back span {
+                                                                    font-size: 1.1rem;
+                                                                }
 
-.card.matched .card-inner {
-    animation: matchPop 0.35s ease forwards;
-}
-
-/* ── Mismatch shake animation ── */
-@keyframes shake {
-    0%, 100% { transform: rotateY(180deg) translateX(0); }
-    25%       { transform: rotateY(180deg) translateX(-6px); }
-    75%       { transform: rotateY(180deg) translateX(6px); }
-}
-
-.card.shake .card-inner {
-    animation: shake 0.4s ease;
+                                                                .game-board {
+                                                                    gap: 8px;
+                                                                }
 }

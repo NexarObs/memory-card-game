@@ -25,10 +25,9 @@ The Game will have two Interfaces: <br>
 # Contribution Guidelines
 
 1. Select an Issue by Assigning it to yourself
-2. Create a Branch to work on said issue, the name of the branch goes as follows:  <br>
-<br> 
-    **feat/nameOfIssue** if its a feature <br>
-    **fix/nameOfFix** if its a fix <br> 
+2. Create a Branch to work on said issue, the name of the branch goes as follows:
+    - **feat/nameOfIssue** if its a feature
+    - **fix/nameOfFix** if its a fix
 
 3. Commit Messages must also respect the **feat** and **fix** conditions, be concise and precise when comititng, write only what changes the commit brought
 4. Once finished with a certain feature, create a **Pull Request** to merge your branch with the main branch.

@@ -44,8 +44,3 @@ The Game will have two Interfaces: <br>
    - **Save** — saves current progression to the database
    - **Quit** — exits the game without saving
 
-
-
-
-## Side Notes
-Usually a Project Leader needs to review and accept the **PR**, but since there are only two of us, this isn't necessary unless specifically asked for.
